@@ -1,0 +1,17 @@
+[
+  {
+    "id": "espn_hd",
+    "name": "ESPN HD (English)",
+    "url": "https://embedsports.top/embed/alpha/espn/1"
+  },
+  {
+    "id": "bein_sports",
+    "name": "BeIN Sports (Arabic)",
+    "url": "https://embedsports.top/embed/alpha/bein/1"
+  },
+  {
+    "id": "sky_sports",
+    "name": "Sky Sports (English)",
+    "url": "https://embedsports.top/embed/alpha/skysports/1"
+  }
+]
