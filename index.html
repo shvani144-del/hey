@@ -2,24 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Streaming Channels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Sports TV</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>📺 My Live Channels</h2>
+  <div class="header">
+    <div class="logo">
+      <svg class="tv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+        <polyline points="17 2 12 7 7 2"></polyline>
+      </svg>
+      <span class="brand-name">Stream<span class="brand-accent">Hub</span></span>
+    </div>
+    <p class="tagline">Your Premium Live Sports Destination</p>
+  </div>
 
-  <!-- Channel Buttons -->
-  <div id="streams-list"></div>
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Live Channels</h2>
+      <div class="live-indicator">
+        <span class="live-dot"></span>
+        <span>Currently Streaming</span>
+      </div>
+    </div>
+    <div id="channels-grid" class="channels-grid">
+      <div class="loading">Loading channels</div>
+    </div>
+  </div>
 
-  <!-- Player -->
-  <iframe 
-    id="stream-player" 
-    width="800" 
-    height="450" 
-    frameborder="0" 
-    allowfullscreen>
-  </iframe>
+  <div id="player-overlay" class="player-overlay">
+    <div class="player-header">
+      <div class="player-title" id="player-title">Live Stream</div>
+      <button class="close-btn" onclick="closePlayer()">✕</button>
+    </div>
+    <div class="player-container">
+      <iframe id="stream-player" allowfullscreen></iframe>
+    </div>
+  </div>
 
   <script src="script.js"></script>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="disclaimer">
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <p><strong>Disclaimer:</strong> This website does not host any content on our servers. All streams are embedded from third-party sources. We are not responsible for the content of external sites.</p>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 StreamHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Advanced protection against inspect and debugging
+    (function() {
+      'use strict';
+
+      // Disable right-click
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+      document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+I (Inspector)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+U (View Source)
+        if (e.ctrlKey && e.keyCode === 85) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+S (Save)
+        if (e.ctrlKey && e.keyCode === 83) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Detect DevTools opening
+      let devtools = { open: false };
+      const element = new Image();
+      
+      Object.defineProperty(element, 'id', {
+        get: function() {
+          devtools.open = true;
+          stopStream();
+        }
+      });
+
+      setInterval(function() {
+        devtools.open = false;
+        console.log(element);
+        console.clear();
+        if (devtools.open) {
+          stopStream();
+        }
+      }, 1000);
+
+      // Additional DevTools detection
+      const widthThreshold = window.outerWidth - window.innerWidth > 160;
+      const heightThreshold = window.outerHeight - window.innerHeight > 160;
+      
+      if (widthThreshold || heightThreshold) {
+        stopStream();
+      }
+
+      window.addEventListener('resize', function() {
+        if (window.outerWidth - window.innerWidth > 160 || 
+            window.outerHeight - window.innerHeight > 160) {
+          stopStream();
+        }
+      });
+
+      // Stop stream if DevTools detected
+      function stopStream() {
+        const player = document.getElementById('stream-player');
+        if (player && player.src) {
+          player.src = '';
+          closePlayer();
+          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#000;color:#fff;font-size:2em;text-align:center;"><div>Access Denied<br><small style="font-size:0.5em;">Developer tools are not allowed</small></div></div>';
+        }
+      }
+
+      // Disable text selection
+      document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Disable copy
+      document.addEventListener('copy', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+    })();
+  </script>
 </body>
 </html>
